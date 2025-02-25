@@ -47,6 +47,27 @@ struct HomeView: View {
             }
             .tint(Color.primary)
             .environmentObject(homeViewModel)
+            
+            SeperatorLineView()
+        }
+    }
+}
+
+private struct SeperatorLineView: View {
+    fileprivate var body: some View {
+        VStack {
+            Spacer()
+            
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.white, Color.gray.opacity(0.1)]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(height: 10)
+                .padding(.bottom, 60)
         }
     }
 }
