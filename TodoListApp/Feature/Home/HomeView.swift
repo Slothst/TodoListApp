@@ -48,7 +48,7 @@ struct HomeView: View {
             .tint(Color.primary)
             .environmentObject(homeViewModel)
             
-            SeperatorLineView()
+//            SeperatorLineView()
         }
     }
 }
@@ -58,16 +58,16 @@ private struct SeperatorLineView: View {
         VStack {
             Spacer()
             
-            Rectangle()
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color.white, Color.gray.opacity(0.1)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
-                .frame(height: 10)
-                .padding(.bottom, 60)
+//            Rectangle()
+//                .fill(
+//                    LinearGradient(
+//                        gradient: Gradient(colors: [Color.primary, Color.gray.opacity(0.1)]),
+//                        startPoint: .top,
+//                        endPoint: .bottom
+//                    )
+//                )
+//                .frame(height: 10)
+//                .padding(.bottom, 60)
         }
     }
 }
@@ -76,5 +76,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(PathModel())
+            .environmentObject(TodoListViewModel())
     }
 }
