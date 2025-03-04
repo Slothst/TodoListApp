@@ -20,7 +20,6 @@ struct HomeView: View {
                               ? "checklist"
                               : "checklist.unchecked"
                         )
-                        .environment(\.symbolVariants, .none)
                         
                     }
                     .tag(Tab.todoList)
@@ -31,7 +30,6 @@ struct HomeView: View {
                               ? "pencil.circle.fill"
                               : "pencil.circle"
                         )
-                        .environment(\.symbolVariants, .none)
                     }
                     .tag(Tab.memo)
                 
@@ -41,13 +39,11 @@ struct HomeView: View {
                               ? "gearshape.fill"
                               : "gearshape"
                         )
-                        .environment(\.symbolVariants, .none)
                     }
                     .tag(Tab.setting)
             }
-            .tint(Color.primary)
+            .tint(Color.orange)
             .environmentObject(homeViewModel)
-            
 //            SeperatorLineView()
         }
     }
