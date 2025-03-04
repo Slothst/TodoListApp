@@ -62,7 +62,7 @@ extension TodoListViewModel {
     }
     
     func removeSelectedTodos(_ todo: Todo) {
-        if let index = todos.firstIndex(of: todo) {
+        if let index = removeTodos.firstIndex(of: todo) {
             removeTodos.remove(at: index)
         } else {
             removeTodos.append(todo)

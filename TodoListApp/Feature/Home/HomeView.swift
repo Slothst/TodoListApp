@@ -8,44 +8,59 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var pathModel: PathModel
+    @StateObject private var pathModel = PathModel()
     @StateObject private var homeViewModel = HomeViewModel()
+    @StateObject private var todoListViewModel = TodoListViewModel()
     
     var body: some View {
-        ZStack {
-            TabView(selection: $homeViewModel.selectedTab) {
-                TodoListView()
-                    .tabItem {
-                        Image(systemName: homeViewModel.selectedTab == .todoList
-                              ? "checklist"
-                              : "checklist.unchecked"
-                        )
-                        
-                    }
-                    .tag(Tab.todoList)
-                
-                MemoListView()
-                    .tabItem {
-                        Image(systemName: homeViewModel.selectedTab == .memo
-                              ? "pencil.circle.fill"
-                              : "pencil.circle"
-                        )
-                    }
-                    .tag(Tab.memo)
-                
-                SettingView()
-                    .tabItem {
-                        Image(systemName: homeViewModel.selectedTab == .setting
-                              ? "gearshape.fill"
-                              : "gearshape"
-                        )
-                    }
-                    .tag(Tab.setting)
+        NavigationStack(path: $pathModel.paths) {
+            ZStack {
+                TabView(selection: $homeViewModel.selectedTab) {
+                    TodoListView()
+                        .tabItem {
+                            Image(systemName: homeViewModel.selectedTab == .todoList
+                                  ? "checklist"
+                                  : "checklist.unchecked"
+                            )
+                            
+                        }
+                        .tag(Tab.todoList)
+                    
+                    MemoListView()
+                        .tabItem {
+                            Image(systemName: homeViewModel.selectedTab == .memo
+                                  ? "pencil.circle.fill"
+                                  : "pencil.circle"
+                            )
+                        }
+                        .tag(Tab.memo)
+                    
+                    SettingView()
+                        .tabItem {
+                            Image(systemName: homeViewModel.selectedTab == .setting
+                                  ? "gearshape.fill"
+                                  : "gearshape"
+                            )
+                        }
+                        .tag(Tab.setting)
+                }
+                .tint(Color.orange)
+                .environmentObject(homeViewModel)
+                .environmentObject(todoListViewModel)
+                //            SeperatorLineView()
             }
-            .tint(Color.orange)
-            .environmentObject(homeViewModel)
-//            SeperatorLineView()
+            .navigationDestination(for: PathType.self) { pathType in
+                switch pathType {
+                case .todoView:
+                    TodoView()
+                        .navigationBarBackButtonHidden()
+                        .environmentObject(todoListViewModel)
+                default:
+                    EmptyView()
+                }
+            }
         }
+        .environmentObject(pathModel)
     }
 }
 
@@ -71,7 +86,6 @@ private struct SeperatorLineView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .environmentObject(PathModel())
             .environmentObject(TodoListViewModel())
     }
 }

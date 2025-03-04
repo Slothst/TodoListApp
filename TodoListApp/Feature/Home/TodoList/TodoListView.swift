@@ -135,7 +135,7 @@ private struct TodoCellView: View {
         self.todo = todo
     }
     
-    var body: some View {
+    fileprivate var body: some View {
         VStack(spacing: 20) {
             HStack {
                 if !todoListViewModel.isEditTodoMode {
@@ -143,8 +143,10 @@ private struct TodoCellView: View {
                         todoListViewModel.selectedBoxTapped(todo)
                     } label: {
                         todo.selected ?
-                        Image(systemName: "checkmark.square.fill") :
+                        Image(systemName: "checkmark.square.fill")
+                            .font(.system(size: 20)) :
                         Image(systemName: "square")
+                            .font(.system(size: 20))
                     }
                 }
                 
@@ -152,6 +154,7 @@ private struct TodoCellView: View {
                     Text(todo.title)
                         .font(.system(size: 16))
                         .foregroundStyle(todo.selected ? Color.gray : Color.primary)
+                        .strikethrough(todo.selected)
                     
                     Text(todo.convertedDayAndTime)
                         .font(.system(size: 16))
@@ -163,11 +166,13 @@ private struct TodoCellView: View {
                 if todoListViewModel.isEditTodoMode {
                     Button {
                         isSelected.toggle()
-                        todoListViewModel.selectedBoxTapped(todo)
+                        todoListViewModel.removeSelectedTodos(todo)
                     } label: {
                         isSelected ?
-                        Image(systemName: "checkmark.square.fill") :
+                        Image(systemName: "checkmark.square.fill")
+                            .font(.system(size: 20)) :
                         Image(systemName: "square")
+                            .font(.system(size: 20))
                     }
                 }
             }
