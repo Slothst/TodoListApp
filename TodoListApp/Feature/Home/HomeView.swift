@@ -11,6 +11,7 @@ struct HomeView: View {
     @StateObject private var pathModel = PathModel()
     @StateObject private var homeViewModel = HomeViewModel()
     @StateObject private var todoListViewModel = TodoListViewModel()
+    @StateObject private var memoListViewModel = MemoListViewModel()
     
     var body: some View {
         NavigationStack(path: $pathModel.paths) {
@@ -47,7 +48,7 @@ struct HomeView: View {
                 .tint(Color.orange)
                 .environmentObject(homeViewModel)
                 .environmentObject(todoListViewModel)
-                //            SeperatorLineView()
+                .environmentObject(memoListViewModel)
             }
             .navigationDestination(for: PathType.self) { pathType in
                 switch pathType {
@@ -55,8 +56,15 @@ struct HomeView: View {
                     TodoView()
                         .navigationBarBackButtonHidden()
                         .environmentObject(todoListViewModel)
-                default:
-                    EmptyView()
+                case let .memoView(isCreateMode, memo):
+                    MemoView(
+                        memoViewModel: isCreateMode
+                        ? .init(memo: .init(title: "", content: "", date: .now))
+                        : .init(memo: memo ?? .init(title: "", content: "", date: .now)),
+                        isCreateMode: isCreateMode
+                    )
+                    .navigationBarBackButtonHidden()
+                    .environmentObject(memoListViewModel)
                 }
             }
         }
@@ -64,28 +72,11 @@ struct HomeView: View {
     }
 }
 
-private struct SeperatorLineView: View {
-    fileprivate var body: some View {
-        VStack {
-            Spacer()
-            
-//            Rectangle()
-//                .fill(
-//                    LinearGradient(
-//                        gradient: Gradient(colors: [Color.primary, Color.gray.opacity(0.1)]),
-//                        startPoint: .top,
-//                        endPoint: .bottom
-//                    )
-//                )
-//                .frame(height: 10)
-//                .padding(.bottom, 60)
-        }
-    }
-}
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(PathModel())
             .environmentObject(TodoListViewModel())
+            .environmentObject(MemoListViewModel())
     }
 }

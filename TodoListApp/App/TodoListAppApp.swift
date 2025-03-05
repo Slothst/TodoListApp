@@ -14,6 +14,7 @@ struct TodoListAppApp: App {
             HomeView()
                 .environmentObject(PathModel())
                 .environmentObject(TodoListViewModel())
+                .environmentObject(MemoListViewModel())
         }
     }
 }
