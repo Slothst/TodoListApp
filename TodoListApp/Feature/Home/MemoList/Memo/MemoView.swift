@@ -125,7 +125,9 @@ private struct RemoveMemoBtnView: View {
                     pathModel.paths.removeLast()
                 } label: {
                     Image(systemName: "trash")
-                        .font(.system(size: 40))
+                        .font(.system(size: 20))
+                        .tint(.red)
+                        .opacity(0.7)
                 }
             }
         }

@@ -28,7 +28,7 @@ struct MemoListView: View {
                         .frame(height: 30)
                 }
                 TitleView()
-                    .padding(.top, 20)
+                    .padding(.top, 30)
                 
                 if memoListViewModel.memos.isEmpty {
                     AnnouncementView()
@@ -121,7 +121,7 @@ private struct MemoListContentView: View {
                         .frame(height: 1)
                     
                     ForEach(memoListViewModel.memos, id: \.self) { memo in
-                        
+                        MemoCellView(memo: memo)
                     }
                 }
             }
@@ -136,7 +136,7 @@ private struct MemoCellView: View {
     private var memo: Memo
     
     fileprivate init(
-        isSelected: Bool,
+        isSelected: Bool = false,
         memo: Memo
     ) {
         _isSelected = State(initialValue: isSelected)
