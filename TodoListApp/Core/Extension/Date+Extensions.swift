@@ -32,4 +32,39 @@ extension Date {
             return dateFormatter.string(from: self)
         }
     }
+    
+    var formattedNotificationYear: Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy"
+        return Int(dateFormatter.string(from: self))!
+    }
+    
+    var formattedNotificationMonth: Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "M"
+        return Int(dateFormatter.string(from: self))!
+    }
+    
+    var formattedNotificationDay: Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "d"
+        return Int(dateFormatter.string(from: self))!
+    }
+    
+    var formattedNotificationHour: Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "HH"
+        return Int(dateFormatter.string(from: self))!
+    }
+    
+    var formattedNotificationMinute: Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "mm"
+        return Int(dateFormatter.string(from: self))!
+    }
 }

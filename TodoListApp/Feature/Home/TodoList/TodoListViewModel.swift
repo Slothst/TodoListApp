@@ -12,6 +12,7 @@ class TodoListViewModel: ObservableObject {
     @Published var isEditTodoMode: Bool
     @Published var removeTodos: [Todo]
     @Published var isRemoveTodoAlertDisplay: Bool
+    var notificationService: NotificationService
     
     var removeTodosCount: Int {
         return removeTodos.count
@@ -25,12 +26,14 @@ class TodoListViewModel: ObservableObject {
         todos: [Todo] = [],
         isEditTodoMode: Bool = false,
         removeTodos: [Todo] = [],
-        isRemoveTodoAlertDisplay: Bool = false
+        isRemoveTodoAlertDisplay: Bool = false,
+        notificationService: NotificationService = .init()
     ) {
         self.todos = todos
         self.isEditTodoMode = isEditTodoMode
         self.removeTodos = removeTodos
         self.isRemoveTodoAlertDisplay = isRemoveTodoAlertDisplay
+        self.notificationService = notificationService
     }
 }
 
@@ -38,11 +41,13 @@ extension TodoListViewModel {
     func selectedBoxTapped(_ todo: Todo) {
         if let index = todos.firstIndex(where: { $0 == todo }) {
             todos[index].selected.toggle()
+            notificationService.printPendingNotification()
         }
     }
     
     func addTodo(_ todo: Todo) {
         todos.append(todo)
+        notificationService.sendTodoNotification(todo)
     }
     
     func navigationRightBtnTapped() {
