@@ -16,9 +16,14 @@ struct NotificationService {
                 content.title = "\(todo.title)"
                 content.body = "\(todo.convertedDayAndTime)"
                 
-                var notificationDate = Calendar.current.dateComponents([.year, .month, .day], from: todo.day)
-                notificationDate.hour = todo.time.formattedNotificationHour
-                notificationDate.minute = todo.time.formattedNotificationMinute
+                var settingDate = Calendar.current.dateComponents([.year, .month, .day], from: todo.day)
+                settingDate.hour = todo.time.formattedNotificationHour
+                settingDate.minute = todo.time.formattedNotificationMinute
+                
+                let convertedDate = Calendar.current.date(from: settingDate)!
+                let calculatedDate = Calendar.current.date(byAdding: .minute, value: -30, to: convertedDate)!
+                
+                let notificationDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: calculatedDate)
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: notificationDate, repeats: false)
                 let request = UNNotificationRequest(
@@ -36,17 +41,17 @@ struct NotificationService {
         }
     }
     
-    func printPendingNotification() {
-        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            for request in requests {
-                print("Identifier: \(request.identifier)")
-                print("Title: \(request.content.title)")
-                print("Body: \(request.content.body)")
-                print("Trigger: \(String(describing: request.trigger))")
-                print("---")
-            }
-        }
-    }
+//    func printPendingNotification() {
+//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+//            for request in requests {
+//                print("Identifier: \(request.identifier)")
+//                print("Title: \(request.content.title)")
+//                print("Body: \(request.content.body)")
+//                print("Trigger: \(String(describing: request.trigger))")
+//                print("---")
+//            }
+//        }
+//    }
 }
 
 class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
