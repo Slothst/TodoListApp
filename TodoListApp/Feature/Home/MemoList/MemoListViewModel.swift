@@ -7,9 +7,8 @@
 
 import Foundation
 
-class MemoListViewModel: ObservableObject {
+class MemoListViewModel: ViewModel {
     @Published var memos: [Memo]
-    @Published var isEditMemoMode: Bool
     @Published var removeMemos: [Memo]
     @Published var isDisplayRemoveMemoAlert: Bool
     
@@ -18,17 +17,15 @@ class MemoListViewModel: ObservableObject {
     }
     
     var navigationBarRightBtnMode: NavigationBtnType {
-        isEditMemoMode ? .complete : .edit
+        isEditMode ? .complete : .edit
     }
     
     init(
         memos: [Memo] = [],
-        isEditMemoMode: Bool = false,
         removeMemos: [Memo] = [],
         isDisplayRemoveMemoAlert: Bool = false
     ) {
         self.memos = memos
-        self.isEditMemoMode = isEditMemoMode
         self.removeMemos = removeMemos
         self.isDisplayRemoveMemoAlert = isDisplayRemoveMemoAlert
     }
@@ -52,14 +49,14 @@ extension MemoListViewModel {
     }
     
     func navigationRightBtnTapped() {
-        if isEditMemoMode {
+        if isEditMode {
             if removeMemos.isEmpty {
-                isEditMemoMode = false
+                isEditMode = false
             } else {
                 setIsDisplayRemoveMemoAlert(true)
             }
         } else {
-            isEditMemoMode = true
+            isEditMode = true
         }
     }
     
@@ -80,6 +77,6 @@ extension MemoListViewModel {
             removeMemos.contains(memo)
         }
         removeMemos.removeAll()
-        isEditMemoMode = false
+        isEditMode = false
     }
 }

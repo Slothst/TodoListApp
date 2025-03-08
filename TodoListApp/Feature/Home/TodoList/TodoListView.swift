@@ -39,7 +39,7 @@ struct TodoListView: View {
             }
         }, action: {
             pathModel.paths.append(.todoView)
-        })
+        }, viewModel: todoListViewModel)
         .alert(
             todoListViewModel.removeTodosCount == 1
             ? "Are you sure to delete \(todoListViewModel.removeTodosCount) To do List?"
@@ -145,7 +145,7 @@ private struct TodoCellView: View {
     fileprivate var body: some View {
         VStack(spacing: 20) {
             HStack {
-                if !todoListViewModel.isEditTodoMode {
+                if !todoListViewModel.isEditMode {
                     Button {
                         todoListViewModel.selectedBoxTapped(todo)
                     } label: {
@@ -170,7 +170,7 @@ private struct TodoCellView: View {
                 
                 Spacer()
                 
-                if todoListViewModel.isEditTodoMode {
+                if todoListViewModel.isEditMode {
                     Button {
                         isSelected.toggle()
                         todoListViewModel.removeSelectedTodos(todo)

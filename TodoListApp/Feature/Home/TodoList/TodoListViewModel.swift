@@ -7,9 +7,8 @@
 
 import Foundation
 
-class TodoListViewModel: ObservableObject {
+class TodoListViewModel: ViewModel {
     @Published var todos: [Todo]
-    @Published var isEditTodoMode: Bool
     @Published var removeTodos: [Todo]
     @Published var isRemoveTodoAlertDisplay: Bool
     var notificationService: NotificationService
@@ -19,18 +18,16 @@ class TodoListViewModel: ObservableObject {
     }
     
     var navigationBarRightBtnMode: NavigationBtnType {
-        isEditTodoMode ? .complete : .edit
+        isEditMode ? .complete : .edit
     }
     
     init(
         todos: [Todo] = [],
-        isEditTodoMode: Bool = false,
         removeTodos: [Todo] = [],
         isRemoveTodoAlertDisplay: Bool = false,
         notificationService: NotificationService = .init()
     ) {
         self.todos = todos
-        self.isEditTodoMode = isEditTodoMode
         self.removeTodos = removeTodos
         self.isRemoveTodoAlertDisplay = isRemoveTodoAlertDisplay
         self.notificationService = notificationService
@@ -41,7 +38,7 @@ extension TodoListViewModel {
     func selectedBoxTapped(_ todo: Todo) {
         if let index = todos.firstIndex(where: { $0 == todo }) {
             todos[index].selected.toggle()
-            notificationService.printPendingNotification()
+//            notificationService.printPendingNotification()
         }
     }
     
@@ -51,14 +48,14 @@ extension TodoListViewModel {
     }
     
     func navigationRightBtnTapped() {
-        if isEditTodoMode {
+        if isEditMode {
             if removeTodos.isEmpty {
-                isEditTodoMode = false
+                isEditMode = false
             } else {
                 setIsRemoveTodoAlertDisplay(true)
             }
         } else {
-            isEditTodoMode = true
+            isEditMode = true
         }
     }
     
@@ -79,6 +76,6 @@ extension TodoListViewModel {
             removeTodos.contains(todo)
         }
         removeTodos.removeAll()
-        isEditTodoMode = false
+        isEditMode = false
     }
 }

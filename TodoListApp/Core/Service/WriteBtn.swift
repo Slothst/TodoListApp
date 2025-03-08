@@ -66,38 +66,43 @@ extension View {
 }
 
 public struct WriteBtnView<Content: View>: View {
+    @ObservedObject private var viewModel: ViewModel
     let content: Content
     let action: () -> Void
     
-    public init(
+    init(
         @ViewBuilder content: () -> Content,
-        action: @escaping () -> Void
+        action: @escaping () -> Void,
+        viewModel: ViewModel
     ) {
         self.content = content()
         self.action = action
+        self.viewModel = viewModel
     }
     
     public var body: some View {
         ZStack {
             content
             
-            VStack {
-                Spacer()
-                
-                HStack {
+            if !viewModel.isEditMode {
+                VStack {
                     Spacer()
                     
-                    Button {
-                        action()
-                    } label: {
-                        Image(systemName: "pencil.circle.fill")
-                            .font(.system(size: 50))
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            action()
+                        } label: {
+                            Image(systemName: "pencil.circle.fill")
+                                .font(.system(size: 50))
+                        }
+                        .tint(Color.orange)
                     }
-                    .tint(Color.orange)
                 }
+                .padding(.trailing, 20)
+                .padding(.bottom, 50)
             }
-            .padding(.trailing, 20)
-            .padding(.bottom, 50)
         }
     }
 }

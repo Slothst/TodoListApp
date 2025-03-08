@@ -162,7 +162,7 @@ private struct MemoCellView: View {
                     
                     Spacer()
                     
-                    if memoListViewModel.isEditMemoMode {
+                    if memoListViewModel.isEditMode {
                         Button {
                             isSelected.toggle()
                             memoListViewModel.memoRemoveSelectedBoxTapped(memo)
@@ -188,21 +188,24 @@ private struct MemoCellView: View {
 
 private struct WriteMemoBtnView: View {
     @EnvironmentObject private var pathModel: PathModel
+    @EnvironmentObject private var memoListViewModel: MemoListViewModel
     
     fileprivate var body: some View {
-        VStack {
-            Spacer()
-            
-            HStack {
+        if !memoListViewModel.isEditMode {
+            VStack {
                 Spacer()
                 
-                Button {
-                    pathModel.paths.append(.memoView(isCreateMode: true, memo: nil))
-                } label: {
-                    Image(systemName: "pencil.circle.fill")
-                        .font(.system(size: 50))
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        pathModel.paths.append(.memoView(isCreateMode: true, memo: nil))
+                    } label: {
+                        Image(systemName: "pencil.circle.fill")
+                            .font(.system(size: 50))
+                    }
+                    .tint(Color.orange)
                 }
-                .tint(Color.orange)
             }
         }
     }
