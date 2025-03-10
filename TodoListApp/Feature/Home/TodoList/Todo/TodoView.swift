@@ -21,6 +21,7 @@ struct TodoView: View {
                 rightBtnAction: {
                     todoListViewModel.addTodo(
                         .init(
+                            uuid: UUID(),
                             title: todoViewModel.title,
                             time: todoViewModel.time,
                             day: todoViewModel.day,

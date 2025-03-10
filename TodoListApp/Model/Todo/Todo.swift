@@ -8,6 +8,7 @@
 import Foundation
 
 struct Todo: Hashable {
+    var uuid: UUID
     var title: String
     var time: Date
     var day: Date

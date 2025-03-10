@@ -5,7 +5,8 @@
 //  Created by 최낙주 on 2/26/25.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 class TodoListViewModel: ViewModel {
     @Published var todos: [Todo]
@@ -22,7 +23,7 @@ class TodoListViewModel: ViewModel {
     }
     
     init(
-        todos: [Todo] = [],
+        todos: [Todo] = CoreDataManager.fetchData(),
         removeTodos: [Todo] = [],
         isRemoveTodoAlertDisplay: Bool = false,
         notificationService: NotificationService = .init()
@@ -43,7 +44,8 @@ extension TodoListViewModel {
     }
     
     func addTodo(_ todo: Todo) {
-        todos.append(todo)
+//        todos.append(todo)
+        CoreDataManager.saveData(todo)
         notificationService.sendTodoNotification(todo)
     }
     

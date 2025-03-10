@@ -41,17 +41,35 @@ struct NotificationService {
         }
     }
     
-//    func printPendingNotification() {
-//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-//            for request in requests {
-//                print("Identifier: \(request.identifier)")
-//                print("Title: \(request.content.title)")
-//                print("Body: \(request.content.body)")
-//                print("Trigger: \(String(describing: request.trigger))")
-//                print("---")
-//            }
-//        }
-//    }
+    func sendNotification(_ date: Date) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
+            if granted {
+                let content = UNMutableNotificationContent()
+                content.title = "hi"
+                content.body = "hello"
+                
+                let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+                
+                let request = UNNotificationRequest(identifier: "test", content: content, trigger: trigger)
+                
+                UNUserNotificationCenter.current().add(request)
+            }
+        }
+    }
+    
+    func printPendingNotification() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            for request in requests {
+                print("Identifier: \(request.identifier)")
+                print("Title: \(request.content.title)")
+                print("Body: \(request.content.body)")
+                print("Trigger: \(String(describing: request.trigger))")
+                print("---")
+            }
+        }
+    }
 }
 
 class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
