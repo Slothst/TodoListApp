@@ -42,8 +42,8 @@ struct TodoListView: View {
         }, viewModel: todoListViewModel)
         .alert(
             todoListViewModel.removeTodosCount == 1
-            ? "Are you sure to delete \(todoListViewModel.removeTodosCount) To do List?"
-            : "Are you sure to delete \(todoListViewModel.removeTodosCount) To do Lists?",
+            ? "Are you sure you want to delete \(todoListViewModel.removeTodosCount) To do List?"
+            : "Are you sure you want to delete \(todoListViewModel.removeTodosCount) To do Lists?",
             isPresented: $todoListViewModel.isRemoveTodoAlertDisplay
         ) {
             Button("Delete", role: .destructive) {
@@ -58,6 +58,9 @@ struct TodoListView: View {
                 homeViewModel.setTodosCount(todos.count)
             }
         )
+        .onDisappear {
+            todoListViewModel.isEditMode = false
+        }
     }
 }
 
@@ -69,9 +72,9 @@ private struct TitleView: View {
                 Text("Add your own\nTo do list!")
             } else {
                 if todoListViewModel.todos.count == 1 {
-                    Text("You have \(todoListViewModel.todos.count) To do list")
+                    Text("You have \(todoListViewModel.todos.count) To do list.")
                 } else {
-                    Text("You have \(todoListViewModel.todos.count) To do lists")
+                    Text("You have \(todoListViewModel.todos.count) To do lists.")
                 }
             }
             

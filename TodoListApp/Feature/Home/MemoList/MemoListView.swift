@@ -43,9 +43,9 @@ struct MemoListView: View {
                 .padding(.bottom, 50)
         }
         .alert(
-            memoListViewModel.memos.count == 1
-            ? "Are you sure to delete \(memoListViewModel.memos.count) memo?"
-            : "Are you sure to delete \(memoListViewModel.memos.count) memos?",
+            memoListViewModel.removeMemoCount == 1
+            ? "Are you sure you want to delete \(memoListViewModel.removeMemoCount) memo?"
+            : "Are you sure you want to delete \(memoListViewModel.removeMemoCount) memos?",
             isPresented: $memoListViewModel.isDisplayRemoveMemoAlert
         ) {
             Button("delete", role: .destructive) {
@@ -55,6 +55,9 @@ struct MemoListView: View {
         }
         .onChange(of: memoListViewModel.memos) { memos in
             homeViewModel.setMemosCount(memos.count)
+        }
+        .onDisappear {
+            memoListViewModel.isEditMode = false
         }
     }
 }
@@ -68,9 +71,9 @@ private struct TitleView: View {
                 Text("Add your memos!")
             } else {
                 if memoListViewModel.memos.count == 1 {
-                    Text("You have \(memoListViewModel.memos.count) memo!")
+                    Text("You have \(memoListViewModel.memos.count) memo.")
                 } else {
-                    Text("You have \(memoListViewModel.memos.count) memos!")
+                    Text("You have \(memoListViewModel.memos.count) memos.")
                 }
             }
             

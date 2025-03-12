@@ -23,7 +23,7 @@ class TodoListViewModel: ViewModel {
     }
     
     init(
-        todos: [Todo] = CoreDataManager.fetchData(),
+        todos: [Todo] = TodoCoreDataManager.fetchData(),
         removeTodos: [Todo] = [],
         isRemoveTodoAlertDisplay: Bool = false,
         notificationService: NotificationService = .init()
@@ -44,10 +44,9 @@ extension TodoListViewModel {
     }
     
     func addTodo(_ todo: Todo) {
-//        todos.append(todo)
-        CoreDataManager.saveData(todo)
+        TodoCoreDataManager.saveData(todo)
         notificationService.sendTodoNotification(todo)
-        todos = CoreDataManager.fetchData()
+        todos = TodoCoreDataManager.fetchData()
     }
     
     func navigationRightBtnTapped() {
@@ -76,10 +75,10 @@ extension TodoListViewModel {
     
     func removeBtnTapped() {
         removeTodos.forEach { todo in
-            CoreDataManager.deleteData(todo)
+            TodoCoreDataManager.deleteData(todo)
         }
         removeTodos.removeAll()
         isEditMode = false
-        todos = CoreDataManager.fetchData()
+        todos = TodoCoreDataManager.fetchData()
     }
 }

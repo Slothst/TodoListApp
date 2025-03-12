@@ -59,8 +59,8 @@ struct HomeView: View {
                 case let .memoView(isCreateMode, memo):
                     MemoView(
                         memoViewModel: isCreateMode
-                        ? .init(memo: .init(title: "", content: "", date: .now))
-                        : .init(memo: memo ?? .init(title: "", content: "", date: .now)),
+                        ? .init(memo: .init(uuid: UUID(), title: "", content: "", date: .now))
+                        : .init(memo: memo ?? .init(uuid: UUID(), title: "", content: "", date: .now)),
                         isCreateMode: isCreateMode
                     )
                     .navigationBarBackButtonHidden()

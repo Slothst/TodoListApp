@@ -39,12 +39,6 @@ struct MemoView: View {
                 
                 MemoContentInputView(memoViewModel: memoViewModel)
                     .padding(.top, 10)
-                
-                if !isCreateMode {
-                    RemoveMemoBtnView(memoViewModel: memoViewModel)
-                        .padding(.trailing, 20)
-                        .padding(.bottom, 10)
-                }
             }
         }
     }
@@ -104,36 +98,6 @@ private struct MemoContentInputView: View {
     }
 }
 
-private struct RemoveMemoBtnView: View {
-    @EnvironmentObject private var pathModel: PathModel
-    @EnvironmentObject private var memoListViewModel: MemoListViewModel
-    @ObservedObject private var memoViewModel: MemoViewModel
-    
-    fileprivate init(memoViewModel: MemoViewModel) {
-        self.memoViewModel = memoViewModel
-    }
-    
-    fileprivate var body: some View {
-        VStack {
-            Spacer()
-            
-            HStack {
-                Spacer()
-                
-                Button {
-                    memoListViewModel.removeMemo(memoViewModel.memo)
-                    pathModel.paths.removeLast()
-                } label: {
-                    Image(systemName: "trash")
-                        .font(.system(size: 20))
-                        .tint(.red)
-                        .opacity(0.7)
-                }
-            }
-        }
-    }
-}
-
 #Preview {
-    MemoView(memoViewModel: .init(memo: .init(title: "", content: "", date: Date())))
+    MemoView(memoViewModel: .init(memo: .init(uuid: UUID(), title: "", content: "", date: Date())))
 }

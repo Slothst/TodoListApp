@@ -5,7 +5,8 @@
 //  Created by 최낙주 on 3/5/25.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 class MemoListViewModel: ViewModel {
     @Published var memos: [Memo]
@@ -21,7 +22,7 @@ class MemoListViewModel: ViewModel {
     }
     
     init(
-        memos: [Memo] = [],
+        memos: [Memo] = MemoCoreDataManager.fetchData(),
         removeMemos: [Memo] = [],
         isDisplayRemoveMemoAlert: Bool = false
     ) {
@@ -33,19 +34,13 @@ class MemoListViewModel: ViewModel {
 
 extension MemoListViewModel {
     func addMemo(_ memo: Memo) {
-        memos.append(memo)
+        MemoCoreDataManager.saveData(memo)
+        memos = MemoCoreDataManager.fetchData()
     }
     
     func updateMemo(_ memo: Memo) {
-        if let index = memos.firstIndex(where: { $0.id == memo.id }) {
-            memos[index] = memo
-        }
-    }
-    
-    func removeMemo(_ memo: Memo) {
-        if let index = memos.firstIndex(where: { $0.id == memo.id }) {
-            memos.remove(at: index)
-        }
+        MemoCoreDataManager.updateData(memo)
+        memos = MemoCoreDataManager.fetchData()
     }
     
     func navigationRightBtnTapped() {
@@ -73,10 +68,11 @@ extension MemoListViewModel {
     }
     
     func removeBtnTapped() {
-        memos.removeAll { memo in
-            removeMemos.contains(memo)
+        removeMemos.forEach { memo in
+            MemoCoreDataManager.deleteData(memo)
         }
         removeMemos.removeAll()
         isEditMode = false
+        memos = MemoCoreDataManager.fetchData()
     }
 }
