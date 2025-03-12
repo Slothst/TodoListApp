@@ -46,6 +46,9 @@ final class TodoCoreDataManager {
             todoEntityList.forEach {
                 todoList.append(convertedToTodo($0))
             }
+            todoList.sort { first, second in
+                return first.day == second.day ? first.time > second.time : first.day > second.day
+            }
             return todoList
         } catch {
             print("error: \(error.localizedDescription)")

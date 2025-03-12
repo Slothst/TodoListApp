@@ -45,6 +45,9 @@ final class MemoCoreDataManager {
             memoEntityList.forEach {
                 memoList.append(convertedToMemo($0))
             }
+            memoList.sort { first, second in
+                return first.date > second.date
+            }
             return memoList
         } catch {
             print("error: \(error.localizedDescription)")
