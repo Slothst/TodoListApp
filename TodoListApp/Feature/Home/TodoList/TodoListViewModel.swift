@@ -47,6 +47,7 @@ extension TodoListViewModel {
 //        todos.append(todo)
         CoreDataManager.saveData(todo)
         notificationService.sendTodoNotification(todo)
+        todos = CoreDataManager.fetchData()
     }
     
     func navigationRightBtnTapped() {
@@ -74,10 +75,11 @@ extension TodoListViewModel {
     }
     
     func removeBtnTapped() {
-        todos.removeAll { todo in
-            removeTodos.contains(todo)
+        removeTodos.forEach { todo in
+            CoreDataManager.deleteData(todo)
         }
         removeTodos.removeAll()
         isEditMode = false
+        todos = CoreDataManager.fetchData()
     }
 }

@@ -53,6 +53,41 @@ final class CoreDataManager {
         return []
     }
     
+    static func updateData(_ todo: Todo) {
+        guard let context = context else { return }
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "TodoEntity")
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", todo.uuid.uuidString)
+        
+        do {
+            guard let result = try? context.fetch(fetchRequest),
+                  let object = result.first as? NSManagedObject else { return }
+            object.setValue(todo.title, forKey: "title")
+            object.setValue(todo.time, forKey: "time")
+            object.setValue(todo.day, forKey: "day")
+            object.setValue(todo.selected, forKey: "isSelected")
+            
+            try context.save()
+        } catch {
+            print("error : \(error.localizedDescription)")
+        }
+    }
+    
+    static func deleteData(_ todo: Todo) {
+        guard let context = context else { return }
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "TodoEntity")
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", todo.uuid.uuidString)
+        
+        do {
+            guard let result = try? context.fetch(fetchRequest),
+                  let object = result.first as? NSManagedObject else { return }
+            context.delete(object)
+            
+            try context.save()
+        } catch {
+            print("error : \(error.localizedDescription)")
+        }
+    }
+    
     private static func convertedToTodo(_ todoEntity: TodoEntity) -> Todo {
         return Todo(
             uuid: todoEntity.uuid ?? UUID(),
